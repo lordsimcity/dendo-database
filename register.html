@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<title>Inscription</title>
+</head>
+<body>
+	<div id="conteneur">
+		<div id="inscriptionForm">
+			<h2> Formulaire d'inscription </h2>
+			<form action="registervalidation.php" method="POST">
+
+			<p> Nom : </p>
+			<input type="text" name="nom" />
+
+			<p> Prénom : </p>
+			<input type="text" name="prenom" />
+
+			<p> Adresse postale : </p>
+			<input type="text" name="adresse" />
+
+			<p> Adresse email : </p>
+			<input type="text" name="mail" />
+
+			<p> Votre mot de passe : </p>
+			<input type="password" name="password" />
+
+			<p> Confirmez votre mot de passe : </p>
+			<input type="password" name="password2" />
+
+
+			<p></p>
+			<div id="recaptcha">
+				<div class="g-recaptcha" data-sitekey="" data-theme="dark"></div>
+			</div>
+			<p></p>
+			<input class="btn btn-primary" type="submit" name="submit" value="S'inscrire" />
+			</form>
+		</div>
+	</div>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>
