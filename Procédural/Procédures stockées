@@ -112,5 +112,5 @@ DELIMITER //
 CREATE TRIGGER UpdateUser BEFORE INSERT ON Users FOR EACH ROW
 BEGIN
 
-SET date_created_user = NOW();
+SET NEW.date_created_user = NOW();
 END//
