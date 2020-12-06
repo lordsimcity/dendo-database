@@ -1,0 +1,116 @@
+
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS UserOrders;
+DELIMITER //
+CREATE PROCEDURE UserOrders()
+BEGIN
+SELECT * FROM Orders o
+INNER JOIN Users u
+ON o.id_user = u.id_user;
+END //
+DELIMITER ;
+
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS AddUser;
+DELIMITER //
+CREATE PROCEDURE AddUser(nom VARCHAR(30), prenom VARCHAR(30), mail VARCHAR(30), motdepasse VARCHAR(100))
+BEGIN
+DECLARE dateday DATETIME;
+DECLARE hash_password VARCHAR(100);
+SET hash_password = MD5(motdepasse);
+SET dateday=NOW();
+INSERT INTO Users(lastname, firstname, mail_address, password, date_created_user) VALUES (nom,prenom,mail,hash_password,dateday);
+
+END //
+DELIMITER ;
+CALL AddUSer("WINCKLER", "Simon", "w.simon@live.com", "azerty");
+
+--------------------------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS AddProduct;
+DELIMITER //
+CREATE PROCEDURE AddProduct(stock INT, typeproduit INT, nom VARCHAR(50),description VARCHAR(100),autonomie VARCHAR(20),moteur VARCHAR(20),batterie VARCHAR(20),prix DECIMAL(8,2),marque VARCHAR(30))
+BEGIN
+DECLARE dateday DATETIME;
+SET dateday = NOW();
+INSERT INTO Products(id_stock, id_type_product, name_product, description_product, autonomy, motor, battery, price_product, brand, date_created_product) VALUES (stock, typeproduit,nom,description,autonomie,moteur,batterie,prix,marque,dateday);
+END //
+DELIMITER ;
+CALL AddProduct (0,0,"Vélo électrique","C'est le plus beau vélo jamais vu", "30 heures", "G452X", "litium 30000A", 1000, "Jitensha");
+
+--------------------------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS DeleteProduct;
+DELIMITER //
+CREATE PROCEDURE DeleteProduct(id INT)
+BEGIN
+DELETE FROM Products WHERE id_product = id ;
+END //
+DELIMITER ;
+ 
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS DeleteUser;
+DELIMITER //
+CREATE PROCEDURE DeleteUser(id INT)
+BEGIN
+DELETE FROM Users WHERE id_user = id ;
+END //
+DELIMITER ;
+
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS UpdateUser;
+DELIMITER //
+CREATE PROCEDURE UpdateUser(id INT, nom VARCHAR(30), prenom VARCHAR(30), email VARCHAR(30))
+BEGIN
+DECLARE dateday DATETIME;
+UPDATE Users 
+SET dateday = NOW();
+SET firstname = nom, lastname = prenom, mail_address = email, date_modified_user = dateday
+WHERE id_user = id ;
+END //
+DELIMITER ;
+
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS UpdateProduct;
+DELIMITER //
+CREATE PROCEDURE UpdateProduct(id INT, nom VARCHAR(50), description VARCHAR(100), autonomie VARCHAR(20),moteur VARCHAR(20),batterie VARCHAR(20),prix DECIMAL(8,2),marque VARCHAR(30))
+BEGIN
+DECLARE dateday DATETIME;
+UPDATE Products 
+SET name_product = nom, description_product = description, autonomy = autonomie, motor = moteur, battery =  batterie, price_product = prix, brand = marque, date_modified_product = dateday
+WHERE id_product = id ;
+END //
+DELIMITER ;
+
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS GetUserById;
+DELIMITER //
+CREATE PROCEDURE GetUserById(id INT)
+BEGIN
+	SELECT *
+	FROM Users 
+	WHERE id_user = id
+	LIMIT 1;
+
+END //
+DELIMITER ;
+
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS GetProductById;
+DELIMITER //
+CREATE PROCEDURE GetProductById(id INT)
+BEGIN
+	SELECT *
+	FROM Products 
+	WHERE id_product = id
+	LIMIT 1;
+END //
+DELIMITER ;
+--------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS UpdateUser;
+DELIMITER //
+CREATE TRIGGER UpdateUser BEFORE INSERT ON Users FOR EACH ROW
+BEGIN
+
+SET date_created_user = NOW();
+END//
